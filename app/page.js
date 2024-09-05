@@ -1,13 +1,13 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react';
-import { collection, doc, getDoc,getDocs, addDoc,updateDoc,deleteDoc, } from 'firebase/firestore';
+import { collection, doc, getDoc,getDocs, setDoc, addDoc,updateDoc,deleteDoc, } from 'firebase/firestore';
+import { useUser } from '@clerk/nextjs';
 import { db } from './firebase';
-
-//Potential New Features to Implement
 
 export default function Home() {
 
+  const { isLoaded, isSignedIn, user } = useUser();
   const [prompt, setPrompt] = useState('');
   const [isResponseLoading, setIsResponseLoading] = useState(false);
   
@@ -43,15 +43,16 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center sm:p-24 p-4 bg-slate-900 text-slate-100">
-      <div className="max-w-5xl w-full items-center justify-between font-mono text-s">
-        <h1 className="text-4xl p-4 text-center">AI Inventory Management</h1>
-        
-        <div className="bg-slate-700 rounded-xl p-6 sm:p-8">
-        
-        </div>
+    <div className="w-full max-w-5xl items-center justify-between bg-slate-700 rounded-lg p-4 sm:p-6">
+      
+      {(isLoaded && isSignedIn) ? (
+        <div>Hello, {user.firstName} welcome to Clerk</div>
+      )
+      : (
+        <div>Hello, Guest User</div>
+      )}
 
-      </div>
-    </main>
+      
+    </div>
   );
 }
