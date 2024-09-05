@@ -7,7 +7,7 @@ export default function Header() {
   
   const userButtonAppearance = {
     elements: {
-      userButtonAvatarBox: "w-10 h-10",
+      userButtonAvatarBox: "w-9 h-9",
     },
   };
 
