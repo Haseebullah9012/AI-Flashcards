@@ -17,7 +17,11 @@ export default function RootLayout({ children }) {
       <html lang="en">
         <body className={inter.className}  suppressHydrationWarning={true}>
           <Header />
-          {children}
+          
+          <main className="flex min-h-screen flex-col items-center pt-20 sm:pt-24 p-4 sm:px-24 bg-slate-900 text-slate-100">
+            {children}
+          </main>
+          
         </body>
       </html>
     </ClerkProvider>
