@@ -7,12 +7,11 @@ import { db } from '../../firebase';
 export default function FlashcardSetPage({ params }) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const flashcardSet = JSON.parse( searchParams.get('flashcards') );
-
-  const [flashcards, setFlashcards] = useState( flashcardSet );
-
+  const flashcards = JSON.parse( searchParams.get('flashcards') );
+  const [shuffledCards, setShuffledCards] = useState(null);
+  
   function handleCardCLick(e,cardId) {
-    const cards = [...flashcards.cards];
+    const cards = [...shuffledCards];
     cards.forEach(card => {
       if (card.id === cardId) {
         if(!card.isFlipped)
@@ -20,8 +19,22 @@ export default function FlashcardSetPage({ params }) {
         card.isFlipped = !card.isFlipped;
       }
     });
-    setFlashcards({...flashcards, cards});
+    setShuffledCards(cards);
   }
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  useEffect(() => {
+    if(flashcards)
+      setShuffledCards( shuffleArray([...flashcards.cards]) );
+  }, []);
+
   
   return (
     <div className='w-full max-w-5xl items-center justify-between bg-slate-700 rounded-lg p-6'>
@@ -38,7 +51,7 @@ export default function FlashcardSetPage({ params }) {
       
       <div className=''>
         <div id='flashcardsSet' className="flex flex-row flex-wrap justify-around w-full p-3">
-          {flashcards.cards?.map((card, index) => (
+          {shuffledCards?.map((card, index) => (
             <button key={index} onClick={(e)=>handleCardCLick(e,card.id)} className={`flex flex-wrap min-h-28 max-w-48 m-4 px-5 py-4 justify-center items-center rounded-xl border-[3px]  ${card.isFlipped ? 'bg-slate-900 text-green-200 border-cyan-600 ' + card.width : 'min-w-28 bg-slate-800 text-slate-200 border-slate-600'}`}>
               {card.isFlipped ? card.back : card.front}
             </button>

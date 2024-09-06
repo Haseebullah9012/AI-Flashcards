@@ -29,8 +29,10 @@ export default function Home() {
   async function handleGenerateCards(e) {
     e.preventDefault();
     
-    if(prompt.trim() === '')
+    if(prompt.trim() === '') {
+      alert('First Enter some Prompt!');
       return; //Empty Prompt
+    }
     if(isResponseLoading)
       return; //First wait for the Response
 
@@ -109,7 +111,7 @@ export default function Home() {
       alert('An error occurred while saving flashcards. Please try again.');
     }
   }
-  
+
   return (
     <div className="w-full max-w-5xl items-center justify-between bg-slate-700 rounded-lg p-4 sm:px-6 sm:py-10">
       
@@ -146,7 +148,7 @@ export default function Home() {
           <div>
             <h2 className='inline-block p-2 text-lg font-bold tracking-wide'>Flashcards-Set Title:</h2>
             <form className="inline-block" onSubmit={handleSaveFlashcards}>
-              <input className="border-1 border-slate-800 bg-slate-600 text-slate-200 rounded-md px-2 py-1 mx-1 outline-slate-800"
+              <input className="border-1 border-slate-800 bg-slate-600 text-slate-200 rounded-md px-2 py-1 mx-1 mb-2 outline-slate-800"
                 type="text"
                 value={flashcards.title}
                 placeholder="Enter Title..."
